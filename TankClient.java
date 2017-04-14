@@ -20,7 +20,7 @@ public class TankClient extends Frame {
 
 	List<Explode> explodes = new ArrayList<Explode>();
 	List<Missile> missiles = new ArrayList<Missile>();
-	// List<Tank> tanks = new ArrayList<Tank>();
+	List<Tank> tanks = new ArrayList<Tank>();
 	Image offScreenImage = null;
 
 	NetClient nc = new NetClient(this);
@@ -28,8 +28,6 @@ public class TankClient extends Frame {
 	public void paint(Graphics g) {
 		g.drawString("missiles count:" + missiles.size(), 10, 50);
 		g.drawString("explodes count:" + explodes.size(), 10, 70);
-		//g.drawString("tanks ID:" + myTank.id, 10, 90);
-		
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			// m.hitTanks(tanks);
@@ -44,10 +42,10 @@ public class TankClient extends Frame {
 			e.draw(g);
 		}
 
-		// for(int i=0; i<tanks.size(); i++) {
-		// Tank t = tanks.get(i);
-		// t.draw(g);
-		// }
+		for (int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			t.draw(g);
+		}
 
 		myTank.draw(g);
 	}
@@ -108,7 +106,6 @@ public class TankClient extends Frame {
 			}
 		}
 	}
-
 	private class KeyMonitor extends KeyAdapter {
 
 		public void keyReleased(KeyEvent e) {

@@ -18,15 +18,15 @@ public class Tank {
 	
 	int id;
 	
-	private boolean good;
+	boolean good;
 	
-	private int x, y;
+	int x, y;
 	
 	private static Random r = new Random();
 	
 	private boolean bL=false, bU=false, bR=false, bD = false;
 	
-	private Direction dir = Direction.STOP;
+	Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;
 	
 	private int step = r.nextInt(12) + 3;
