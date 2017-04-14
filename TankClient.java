@@ -5,6 +5,9 @@ import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
 
+
+import java.util.UUID;
+
 public class TankClient extends Frame {
 	/**
 	 * 
@@ -20,13 +23,13 @@ public class TankClient extends Frame {
 	// List<Tank> tanks = new ArrayList<Tank>();
 	Image offScreenImage = null;
 
-	NetClient nc = new NetClient();
+	NetClient nc = new NetClient(this);
 
 	public void paint(Graphics g) {
 		g.drawString("missiles count:" + missiles.size(), 10, 50);
 		g.drawString("explodes count:" + explodes.size(), 10, 70);
-		// g.drawString("tanks count:" + tanks.size(), 10, 90);
-
+		//g.drawString("tanks ID:" + myTank.id, 10, 90);
+		
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			// m.hitTanks(tanks);
@@ -68,7 +71,6 @@ public class TankClient extends Frame {
 		// tanks.add(new Tank(50 + 40*(i+1), 50, false, Direction.D, this));
 		// }
 
-		// this.setLocation(400, 300);
 		this.setSize(GAME_WIDTH, GAME_HEIGHT);
 		this.setTitle("TankWar");
 		this.addWindowListener(new WindowAdapter() {

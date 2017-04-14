@@ -16,6 +16,8 @@ public class Tank {
 	
 	TankClient tc;
 	
+	int id;
+	
 	private boolean good;
 	
 	private int x, y;
@@ -50,6 +52,8 @@ public class Tank {
 		}
 		
 		Color c = g.getColor();
+		g.setColor(Color.RED);
+		g.drawString("id:"+id, x, y-10);
 		if(good) g.setColor(Color.RED);
 		else g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGHT);
