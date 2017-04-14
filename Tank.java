@@ -43,9 +43,9 @@ public class Tank {
 	
 	public void draw(Graphics g) {
 		if(!live) {
-			if(!good) {
-				tc.tanks.remove(this);
-			}
+			// if(!good) {
+			// tc.tanks.remove(this);
+			// }
 			return;
 		}
 		
