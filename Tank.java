@@ -3,7 +3,7 @@ package com.Tanknet.Gan;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+//import java.util.*;
 
 public class Tank {
 	public static final int XSPEED = 5;
@@ -22,14 +22,14 @@ public class Tank {
 	
 	int x, y;
 	
-	private static Random r = new Random();
+//	private static Random r = new Random();
 	
 	private boolean bL=false, bU=false, bR=false, bD = false;
 	
 	Dir dir = Dir.STOP;
 	private Dir ptDir = Dir.D;
 	
-	private int step = r.nextInt(12) + 3;
+//	private int step = r.nextInt(12) + 3;
 
 	public Tank(int x, int y, boolean good) {
 		this.x = x;
@@ -134,17 +134,17 @@ public class Tank {
 		if(x + Tank.WIDTH > TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH - Tank.WIDTH;
 		if(y + Tank.HEIGHT > TankClient.GAME_HEIGHT) y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
 		
-		if(!good) {
-			Dir[] dirs = Dir.values();
-			if(step == 0) {
-				step = r.nextInt(12) + 3;
-				int rn = r.nextInt(dirs.length);
-				dir = dirs[rn];
-			}			
-			step --;
-			
-			if(r.nextInt(40) > 38) this.fire();
-		}
+//		if(!good) {
+//			Dir[] dirs = Dir.values();
+//			if(step == 0) {
+//				step = r.nextInt(12) + 3;
+//				int rn = r.nextInt(dirs.length);
+//				dir = dirs[rn];
+//			}			
+//			step --;
+//			
+//			if(r.nextInt(40) > 38) this.fire();
+//		}
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -210,7 +210,7 @@ public class Tank {
 		if(!live) return null;
 		int x = this.x + Tank.WIDTH/2 - Missile.WIDTH/2;
 		int y = this.y + Tank.HEIGHT/2 - Missile.HEIGHT/2;
-		Missile m = new Missile(this.id, x, y, good, ptDir, this.tc);
+		Missile m = new Missile(this.id, x, y, this.good, ptDir, this.tc);
 		tc.missiles.add(m);
 		
 		MissileNewMsg msg = new MissileNewMsg(m);

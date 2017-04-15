@@ -23,7 +23,6 @@ public class MissileNewMsg implements Msg {
 	}
 	
 	public void send(DatagramSocket ds, String IP, int udpPort) {
-		byte[] buf = new byte[1024];
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
@@ -36,7 +35,7 @@ public class MissileNewMsg implements Msg {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		buf = baos.toByteArray();
+		byte[] buf  = baos.toByteArray();
 		
 		DatagramPacket dp = new DatagramPacket(buf,buf.length,new InetSocketAddress(IP,udpPort));
 		try {

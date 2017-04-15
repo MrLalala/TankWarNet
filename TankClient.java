@@ -33,7 +33,10 @@ public class TankClient extends Frame {
 		for (int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			// m.hitTanks(tanks);
-			m.hitTank(myTank);
+			if(m.hitTank(myTank)){
+				TankDeadMsg msg = new TankDeadMsg(myTank.id);
+				nc.send(msg);
+			}
 			m.draw(g);
 			// if(!m.isLive()) missiles.remove(m);
 			// else m.draw(g);
@@ -119,7 +122,7 @@ public class TankClient extends Frame {
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
-			if(key == KeyEvent.VK_C)
+			if(key == KeyEvent.VK_F1)
 				cDlg.setVisible(true);
 			else
 				myTank.keyPressed(e);

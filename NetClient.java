@@ -37,6 +37,10 @@ public class NetClient {
 			dos.writeInt(udpPort);
 			DataInputStream dis = new DataInputStream(s.getInputStream());
 			tc.myTank.id = dis.readInt();
+			if(tc.myTank.id%2 == 0)
+				tc.myTank.good = true;
+			else
+				tc.myTank.good = false;
 System.out.println("Server: "+ s.getLocalPort());
 System.out.println("Server give me a ID: "+ tc.myTank.id);
 		} catch (IOException e) {
@@ -98,6 +102,10 @@ System.out.println("A Packet is received from server");
 				break;
 			case Msg.MISSILE_NEW_MSG:
 				msg = new MissileNewMsg(NetClient.this.tc);
+				msg.parse(dis);
+				break;
+			case Msg.TANK_DEAD_MSG:
+				msg = new TankDeadMsg(NetClient.this.tc);
 				msg.parse(dis);
 				break;
 			default:
