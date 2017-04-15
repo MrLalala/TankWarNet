@@ -14,7 +14,7 @@ import java.net.SocketException;
 
 public class NetClient {
 	
-	private static int  UDP_PORT_START = 2333;
+	private static int  UDP_PORT_START = 7973;
 	
 	private int udpPort;
 	
@@ -23,9 +23,9 @@ public class NetClient {
 	DatagramSocket ds = null;
 	
 	public NetClient(TankClient tc){
-		udpPort = UDP_PORT_START ++;
+		udpPort = UDP_PORT_START ;
 		try {
-			ds = new DatagramSocket(2353);
+			ds = new DatagramSocket(UDP_PORT_START);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -49,18 +49,19 @@ System.out.println("Server give me a ID: "+ tc.myTank.id);
 			if ( s != null ){
 				try {
 					s.close();
+					s = null;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 		
-		TankMsg msg = new TankMsg(tc.myTank);
+		TankNewMsg msg = new TankNewMsg(tc.myTank);
 		send(msg);
 		new Thread(new UDPRecvThread()).start();
 	}
 	
-	public void send(TankMsg msg){
+	public void send(Msg msg){
 		msg.send(ds,"127.0.0.1",TankServer.UDP_PORT);
 	}
 	
@@ -70,7 +71,6 @@ System.out.println("Server give me a ID: "+ tc.myTank.id);
 			while (ds != null) {
 				DatagramPacket dp = new DatagramPacket(buff, buff.length);
 				try {
-					//将收到的 数据通过 dp进行接收
 					ds.receive(dp);
 					parse(dp);
 System.out.println("A Packet is received from server");
@@ -83,8 +83,27 @@ System.out.println("A Packet is received from server");
 		private void parse(DatagramPacket dp) {
 			DataInputStream dis = new DataInputStream(
 					new ByteArrayInputStream(buff,0,dp.getLength()));
-			TankMsg msg = new TankMsg(tc);
-			msg.parse(dis);
+			int type = 0;
+			try {
+				type = dis.readInt();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				System.out.println("NetClient dis error");
+			}
+			Msg msg = null;
+			switch(type){
+			case Msg.TANK_NEW_MSG:
+				msg = new TankNewMsg(NetClient.this.tc);
+				msg.parse(dis);
+				break;
+			case Msg.TANK_MOVE_MSG:
+				msg = new TankMoveMsg(NetClient.this.tc);
+				msg.parse(dis);
+				break;
+			default:
+				System.out.println("NetClient have some errors");
+			}
+			
 		}
 	}
 }

@@ -1,5 +1,5 @@
 package com.Tanknet.Gan;
 
-public enum Direction {
+public enum Dir {
 	L, LU, U, RU, R, RD, D, LD, STOP	
 }

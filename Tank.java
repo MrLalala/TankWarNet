@@ -26,8 +26,8 @@ public class Tank {
 	
 	private boolean bL=false, bU=false, bR=false, bD = false;
 	
-	Direction dir = Direction.STOP;
-	private Direction ptDir = Direction.D;
+	Dir dir = Dir.STOP;
+	private Dir ptDir = Dir.D;
 	
 	private int step = r.nextInt(12) + 3;
 
@@ -37,7 +37,7 @@ public class Tank {
 		this.good = good;
 	}
 	
-	public Tank(int x, int y, boolean good, Direction dir,  TankClient tc) {
+	public Tank(int x, int y, boolean good, Dir dir,  TankClient tc) {
 		this(x, y, good);
 		this.dir = dir;
 		this.tc = tc;
@@ -125,7 +125,7 @@ public class Tank {
 			break;
 		}
 		
-		if(this.dir != Direction.STOP) {
+		if(this.dir != Dir.STOP) {
 			this.ptDir = this.dir;
 		}
 		
@@ -135,7 +135,7 @@ public class Tank {
 		if(y + Tank.HEIGHT > TankClient.GAME_HEIGHT) y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
 		
 		if(!good) {
-			Direction[] dirs = Direction.values();
+			Dir[] dirs = Dir.values();
 			if(step == 0) {
 				step = r.nextInt(12) + 3;
 				int rn = r.nextInt(dirs.length);
@@ -167,15 +167,21 @@ public class Tank {
 	}
 	
 	void locateDirection() {
-		if(bL && !bU && !bR && !bD) dir = Direction.L;
-		else if(bL && bU && !bR && !bD) dir = Direction.LU;
-		else if(!bL && bU && !bR && !bD) dir = Direction.U;
-		else if(!bL && bU && bR && !bD) dir = Direction.RU;
-		else if(!bL && !bU && bR && !bD) dir = Direction.R;
-		else if(!bL && !bU && bR && bD) dir = Direction.RD;
-		else if(!bL && !bU && !bR && bD) dir = Direction.D;
-		else if(bL && !bU && !bR && bD) dir = Direction.LD;
-		else if(!bL && !bU && !bR && !bD) dir = Direction.STOP;
+		Dir oldDir = this.dir;
+		if(bL && !bU && !bR && !bD) dir = Dir.L;
+		else if(bL && bU && !bR && !bD) dir = Dir.LU;
+		else if(!bL && bU && !bR && !bD) dir = Dir.U;
+		else if(!bL && bU && bR && !bD) dir = Dir.RU;
+		else if(!bL && !bU && bR && !bD) dir = Dir.R;
+		else if(!bL && !bU && bR && bD) dir = Dir.RD;
+		else if(!bL && !bU && !bR && bD) dir = Dir.D;
+		else if(bL && !bU && !bR && bD) dir = Dir.LD;
+		else if(!bL && !bU && !bR && !bD) dir = Dir.STOP;
+		
+		if(oldDir != dir){
+			TankMoveMsg msg = new TankMoveMsg(this.id,this.dir);
+			tc.nc.send(msg);
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {

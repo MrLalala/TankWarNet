@@ -11,20 +11,20 @@ public class Missile {
 	public static final int HEIGHT = 10;
 	
 	int x, y;
-	Direction dir;
+	Dir dir;
 	
 	private boolean good;
 	private boolean live = true;
 	
 	private TankClient tc;
 	
-	public Missile(int x, int y, Direction dir) {
+	public Missile(int x, int y, Dir dir) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 	}
 	
-	public Missile(int x, int y, boolean good, Direction dir, TankClient tc) {
+	public Missile(int x, int y, boolean good, Dir dir, TankClient tc) {
 		this(x, y, dir);
 		this.good = good;
 		this.tc = tc;

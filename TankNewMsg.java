@@ -8,25 +8,27 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
-public class TankMsg {
+public class TankNewMsg implements Msg{
 	Tank t;
 	TankClient tc;
-	public TankMsg(Tank t){
+	private int msgType = Msg.TANK_NEW_MSG;
+	public TankNewMsg(Tank t){
 		this.t= t;
 	}
 
-	public TankMsg(TankClient tc){
+	public TankNewMsg(TankClient tc){
 		this.tc = tc;
 	}
 	
-	public TankMsg() {
+	public TankNewMsg() {
 
 	}
 	
-	public void send(DatagramSocket ds,String ip,int port) {
+	public void send(DatagramSocket ds,String ip,int udpPort) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
+			dos.writeInt(msgType);
 			dos.writeInt(t.id);
 			dos.writeInt(t.x);
 			dos.writeInt(t.y);
@@ -38,7 +40,7 @@ public class TankMsg {
 		}
 		byte[] buf = baos.toByteArray();
 		DatagramPacket dp = new DatagramPacket(
-				buf,buf.length,new InetSocketAddress(ip,port));
+				buf,buf.length,new InetSocketAddress(ip,udpPort));
 		try {
 			ds.send(dp);
 		} catch (IOException e) {
@@ -53,9 +55,9 @@ public class TankMsg {
 				return;
 			int x = dis.readInt();
 			int y = dis.readInt();
-			Direction dir = Direction.values()[dis.readInt()];
+			Dir dir = Dir.values()[dis.readInt()];
 			boolean good = dis.readBoolean();
-//System.out.println("ID"+id+"\tX:"+x+"\tY:"+y+"\tDir:"+dir.toString()+"\tFlag:"+good);
+System.out.println("ID"+id+"\tX:"+x+"\tY:"+y+"\tDir:"+dir.toString()+"\tFlag:"+good);
 			Tank t = new Tank(x,y,good,dir,tc);
 			t.id = id;
 			tc.tanks.add(t);

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-import java.util.UUID;
+//import java.util.UUID;
 
 public class TankClient extends Frame {
 	/**
@@ -16,7 +16,7 @@ public class TankClient extends Frame {
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 
-	Tank myTank = new Tank(50, 50, true, Direction.STOP, this);
+	Tank myTank = new Tank(50, 50, true, Dir.STOP, this);
 
 	List<Explode> explodes = new ArrayList<Explode>();
 	List<Missile> missiles = new ArrayList<Missile>();
@@ -43,6 +43,7 @@ public class TankClient extends Frame {
 		}
 
 		for (int i = 0; i < tanks.size(); i++) {
+//System.out.println("have a tank");
 			Tank t = tanks.get(i);
 			t.draw(g);
 		}

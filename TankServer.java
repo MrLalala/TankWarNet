@@ -25,7 +25,7 @@ public class TankServer {
 	List<Client> clients = new ArrayList<Client>();
 	
 	public void start(){
-		new Thread(new UDPThread()).start();
+		new Thread(new UDPSendThread()).start();
 		try {
 			ss = new ServerSocket(TCP_PORT);
 		} catch (IOException e) {
@@ -77,7 +77,7 @@ System.out.println("A tankClient is Connect: " + s.getInetAddress() + ":" + s.ge
 		}
 	}
 	
-	private class UDPThread implements Runnable{
+	private class UDPSendThread implements Runnable{
 		
 		byte[] buff = new byte[1024];
 		
@@ -97,6 +97,7 @@ System.out.println("UDP Server started at port : "+UDP_PORT);
 						for(int i = 0;i<clients.size();i++){
 							Client c = clients.get(i);
 							dp.setSocketAddress(new InetSocketAddress(c.IP,c.port));
+//System.out.println("A Packet is send");							
 							ds.send(dp);
 						}
 System.out.println("A Packet is received");
