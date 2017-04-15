@@ -13,19 +13,22 @@ public class Missile {
 	int x, y;
 	Dir dir;
 	
-	private boolean good;
+	int tankID;
+	
+	boolean good;
 	private boolean live = true;
 	
 	private TankClient tc;
 	
-	public Missile(int x, int y, Dir dir) {
+	public Missile(int tankID, int x, int y, Dir dir) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.tankID = tankID;
 	}
 	
-	public Missile(int x, int y, boolean good, Dir dir, TankClient tc) {
-		this(x, y, dir);
+	public Missile(int tankID, int x, int y, boolean good, Dir dir, TankClient tc) {
+		this(tankID,x, y, dir);
 		this.good = good;
 		this.tc = tc;
 	}

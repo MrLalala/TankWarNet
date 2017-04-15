@@ -96,6 +96,10 @@ System.out.println("A Packet is received from server");
 				msg = new TankMoveMsg(NetClient.this.tc);
 				msg.parse(dis);
 				break;
+			case Msg.MISSILE_NEW_MSG:
+				msg = new MissileNewMsg(NetClient.this.tc);
+				msg.parse(dis);
+				break;
 			default:
 				System.out.println("NetClient have some errors");
 			}
