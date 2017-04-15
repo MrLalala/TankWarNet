@@ -179,7 +179,7 @@ public class Tank {
 		else if(!bL && !bU && !bR && !bD) dir = Dir.STOP;
 		
 		if(oldDir != dir){
-			TankMoveMsg msg = new TankMoveMsg(this.id,this.dir);
+			TankMoveMsg msg = new TankMoveMsg(this.id,this.x,this.y,this.dir);
 			tc.nc.send(msg);
 		}
 	}

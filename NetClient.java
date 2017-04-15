@@ -14,7 +14,7 @@ import java.net.SocketException;
 
 public class NetClient {
 	
-	private static int  UDP_PORT_START = 7973;
+	private static int  UDP_PORT_START = 7983;
 	
 	private int udpPort;
 	

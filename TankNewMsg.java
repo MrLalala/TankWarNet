@@ -57,10 +57,20 @@ public class TankNewMsg implements Msg{
 			int y = dis.readInt();
 			Dir dir = Dir.values()[dis.readInt()];
 			boolean good = dis.readBoolean();
-System.out.println("ID"+id+"\tX:"+x+"\tY:"+y+"\tDir:"+dir.toString()+"\tFlag:"+good);
-			Tank t = new Tank(x,y,good,dir,tc);
-			t.id = id;
-			tc.tanks.add(t);
+//System.out.println("ID:"+id+"\tX:"+x+"\tY:"+y+"\tDir:"+dir.toString()+"\tFlag:"+good);
+			boolean exist = false;
+			for (int i = 0; i < tc.tanks.size(); i++) {
+				Tank t = tc.tanks.get(i);
+				if (t.id == id)
+					exist = true;
+			} 
+			if (!exist) {
+				TankNewMsg tnMsg = new TankNewMsg(tc.myTank);
+				tc.nc.send(tnMsg);
+				Tank t = new Tank(x, y, good, dir, tc);
+				t.id = id;
+				tc.tanks.add(t);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
