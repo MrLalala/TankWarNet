@@ -108,6 +108,9 @@ System.out.println("A Packet is received from server");
 				msg = new TankDeadMsg(NetClient.this.tc);
 				msg.parse(dis);
 				break;
+			case Msg.MISSILE_DEAD_MSG:
+				msg = new MissileDeadMsg(NetClient.this.tc);
+				msg.parse(dis);
 			default:
 				System.out.println("NetClient have some errors");
 			}

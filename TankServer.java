@@ -29,11 +29,12 @@ public class TankServer {
 		try {
 			ss = new ServerSocket(TCP_PORT);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("连接失败，请重启客户端");
+			
 			try {
 				ss.close();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				System.exit(0);
 			}
 		}
 		
@@ -49,7 +50,8 @@ public class TankServer {
 System.out.println("A tankClient is Connect: " + s.getInetAddress() + ":" + s.getPort()+"----UDP----:"+port);
 				clients.add(new Client(ip, port));
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("连接失败，请重启服务端");
+				System.exit(0);
 			} finally {
 				if (s != null) {
 					try {
@@ -87,7 +89,8 @@ System.out.println("A tankClient is Connect: " + s.getInetAddress() + ":" + s.ge
 				try {
 					ds = new DatagramSocket(UDP_PORT);
 				} catch (SocketException e) {
-					e.printStackTrace();
+					System.out.println("连接失败");
+					System.exit(0);
 				} 
 System.out.println("UDP Server started at port : "+UDP_PORT);
 				while(ds != null){

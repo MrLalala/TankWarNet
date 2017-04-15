@@ -28,6 +28,7 @@ public class MissileNewMsg implements Msg {
 		try {
 			dos.writeInt(msgType);
 			dos.writeInt(m.tankID);
+			dos.writeInt(m.id);
 			dos.writeInt(m.x);
 			dos.writeInt(m.y);
 			dos.writeInt(m.dir.ordinal());
@@ -48,15 +49,17 @@ public class MissileNewMsg implements Msg {
 
 	public void parse(DataInputStream dis) {
 		try {
-			int id = dis.readInt();
-			if(id == tc.myTank.id)
+			int tankID = dis.readInt();
+			if(tankID == tc.myTank.id)
 				return;
+			int id = dis.readInt();
 			int x = dis.readInt();
 			int y = dis.readInt();
 			Dir dir = Dir.values()[dis.readInt()];
 			boolean good = dis.readBoolean();
 			// System.out.println("ID:"+id+"\tX:"+x+"\tY:"+y+"\tDir:"+dir.toString()+"\tFlag:"+good);
-			Missile m = new Missile(id,x,y,good,dir,this.tc);
+			Missile m = new Missile(tankID,x,y,good,dir,this.tc);
+			m.id = id;
 			tc.missiles.add(m);
 		} catch (IOException e) {
 			e.printStackTrace();
