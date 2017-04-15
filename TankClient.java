@@ -24,6 +24,8 @@ public class TankClient extends Frame {
 	Image offScreenImage = null;
 
 	NetClient nc = new NetClient(this);
+	
+	ConnDialog cDlg = new ConnDialog();
 
 	public void paint(Graphics g) {
 		g.drawString("missiles count:" + missiles.size(), 10, 50);
@@ -84,7 +86,7 @@ public class TankClient extends Frame {
 
 		setVisible(true);
 
-		nc.connect("127.0.0.1", TankServer.TCP_PORT);
+		//nc.connect("127.0.0.1", TankServer.TCP_PORT);
 		
 		new Thread(new PaintThread()).start();
 	}
@@ -110,12 +112,59 @@ public class TankClient extends Frame {
 	private class KeyMonitor extends KeyAdapter {
 
 		public void keyReleased(KeyEvent e) {
-			myTank.keyReleased(e);
+			
+				myTank.keyReleased(e);
+				
 		}
 
 		public void keyPressed(KeyEvent e) {
-			myTank.keyPressed(e);
+			int key = e.getKeyCode();
+			if(key == KeyEvent.VK_C)
+				cDlg.setVisible(true);
+			else
+				myTank.keyPressed(e);
 		}
 
+	}
+	
+	
+	class ConnDialog extends Dialog{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		Button b = new Button("OK");
+		TextField tIP = new TextField("127.0.0.1",12);
+		TextField tPort = new TextField(""+TankServer.TCP_PORT,4);
+		TextField tUPort = new TextField("2233",4);
+		public ConnDialog(){
+			super(TankClient.this,true);
+			this.setLayout(new FlowLayout());
+			this.add(new Label("IP:"));
+			this.add(tIP);
+			this.add(new Label("Server Port:"));
+			this.add(tPort);
+			this.add(new Label("My UDP Port"));
+			this.add(tUPort);
+			this.add(b);
+			b.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					String IP = tIP.getText();
+					int port = Integer.parseInt(tPort.getText().trim());
+					int uPort = Integer.parseInt(tUPort.getText().trim());
+					nc.udpPort = uPort;
+					nc.connect(IP, port);
+					setVisible(false);
+				}
+				
+			});
+			this.pack();
+			this.setLocation(300,300);
+			this.addWindowListener(new WindowAdapter(){
+				public void windowClosing(WindowEvent e){
+					setVisible(false);
+				}
+			});
+		}
 	}
 }

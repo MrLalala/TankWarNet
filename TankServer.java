@@ -96,8 +96,7 @@ System.out.println("UDP Server started at port : "+UDP_PORT);
 						ds.receive(dp);
 						for(int i = 0;i<clients.size();i++){
 							Client c = clients.get(i);
-							dp.setSocketAddress(new InetSocketAddress(c.IP,c.port));
-//System.out.println("A Packet is send");							
+							dp.setSocketAddress(new InetSocketAddress(c.IP,c.port));							
 							ds.send(dp);
 						}
 System.out.println("A Packet is received");

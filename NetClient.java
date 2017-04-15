@@ -14,26 +14,22 @@ import java.net.SocketException;
 
 public class NetClient {
 	
-	private static int  UDP_PORT_START = 7983;
-	
-	private int udpPort;
+	int udpPort;
 	
 	private TankClient tc;
 	
 	DatagramSocket ds = null;
 	
 	public NetClient(TankClient tc){
-		udpPort = UDP_PORT_START ;
-		try {
-			ds = new DatagramSocket(UDP_PORT_START);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		
 		this.tc = tc;
 	}
 	
 	public void connect(String IP,int port){
+		try {
+			ds = new DatagramSocket(udpPort);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		Socket s = null;
 		try {
 			s = new Socket(IP,port);
