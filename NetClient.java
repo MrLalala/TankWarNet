@@ -20,11 +20,14 @@ public class NetClient {
 	
 	DatagramSocket ds = null;
 	
+	String IP;
+	
 	public NetClient(TankClient tc){
 		this.tc = tc;
 	}
 	
 	public void connect(String IP,int port){
+		this.IP = IP;
 		try {
 			ds = new DatagramSocket(udpPort);
 		} catch (SocketException e) {
@@ -62,7 +65,7 @@ System.out.println("Server give me a ID: "+ tc.myTank.id);
 	}
 	
 	public void send(Msg msg){
-		msg.send(ds,"127.0.0.1",TankServer.UDP_PORT);
+		msg.send(ds,IP,TankServer.UDP_PORT);
 	}
 	
 	private class UDPRecvThread implements Runnable{
