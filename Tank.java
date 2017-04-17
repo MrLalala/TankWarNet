@@ -27,7 +27,7 @@ public class Tank {
 	private boolean bL=false, bU=false, bR=false, bD = false;
 	
 	Dir dir = Dir.STOP;
-	private Dir ptDir = Dir.D;
+	Dir ptDir = Dir.D;
 	
 //	private int step = r.nextInt(12) + 3;
 
@@ -179,7 +179,7 @@ public class Tank {
 		else if(!bL && !bU && !bR && !bD) dir = Dir.STOP;
 		
 		if(oldDir != dir){
-			TankMoveMsg msg = new TankMoveMsg(this.id,this.x,this.y,this.dir);
+			TankMoveMsg msg = new TankMoveMsg(this.id,this.x,this.y,this.dir,this.ptDir);
 			tc.nc.send(msg);
 		}
 	}

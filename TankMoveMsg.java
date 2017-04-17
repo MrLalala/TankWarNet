@@ -14,13 +14,15 @@ public class TankMoveMsg implements Msg{
 	int id;
 	int x,y;
 	Dir dir;
+	Dir ptDir;
 	private TankClient tc;
 	
-	public TankMoveMsg(int id, int x, int y, Dir dir) {
+	public TankMoveMsg(int id, int x, int y, Dir dir, Dir ptDir) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.ptDir = ptDir;
 	}
 
 
@@ -40,6 +42,7 @@ public class TankMoveMsg implements Msg{
 			dos.writeInt(x);
 			dos.writeInt(y);
 			dos.writeInt(dir.ordinal());
+			dos.writeInt(ptDir.ordinal());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,8 +50,8 @@ public class TankMoveMsg implements Msg{
 		DatagramPacket dp = new DatagramPacket(buff,buff.length,new InetSocketAddress(IP,udpPort));
 		try {
 			ds.send(dp);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Move发送UDP数据包出错");
 		}
 	}
 
@@ -61,11 +64,13 @@ public class TankMoveMsg implements Msg{
 			int x = dis.readInt();
 			int y = dis.readInt();
 			Dir dir = Dir.values()[dis.readInt()];
+			Dir ptDir = Dir.values()[dis.readInt()];
 //			boolean exist = false;
 			for (int i = 0; i < tc.tanks.size(); i++){
 				Tank t = tc.tanks.get(i);
 				if(t.id == id){
 					t.dir = dir;
+					t.ptDir = ptDir;
 					t.x = x;
 					t.y = y;
 //					exist = true;
